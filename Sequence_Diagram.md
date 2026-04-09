@@ -1,290 +1,13 @@
-<style>
-  .tab-bar {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-    padding: 4px 0;
-    border-bottom: 1px solid var(--color-border-tertiary);
-  }
-  .tab-btn {
-    padding: 6px 14px;
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--color-border-tertiary);
-    background: transparent;
-    color: var(--color-text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: var(--font-sans);
-  }
-  .tab-btn:hover {
-    background: var(--color-background-secondary);
-    color: var(--color-text-primary);
-  }
-  .tab-btn.active {
-    background: var(--color-background-secondary);
-    color: var(--color-text-primary);
-    border-color: var(--color-border-primary);
-    font-weight: 500;
-  }
-  .phase-label {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 2px 7px;
-    border-radius: 99px;
-    margin-right: 6px;
-    vertical-align: middle;
-  }
-  .p1 {
-    background: #eeedfe;
-    color: #534ab7;
-  }
-  .p2 {
-    background: #e1f5ee;
-    color: #0f6e56;
-  }
-  .p3 {
-    background: #faece7;
-    color: #993c1d;
-  }
-  .sub-tab-bar {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-  .sub-tab-btn {
-    padding: 4px 11px;
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--color-border-tertiary);
-    background: transparent;
-    color: var(--color-text-secondary);
-    font-size: 12px;
-    cursor: pointer;
-    font-family: var(--font-sans);
-    transition: all 0.15s;
-  }
-  .sub-tab-btn:hover {
-    background: var(--color-background-secondary);
-  }
-  .sub-tab-btn.active {
-    background: var(--color-background-secondary);
-    color: var(--color-text-primary);
-    border-color: var(--color-border-secondary);
-  }
-  .panel {
-    display: none;
-  }
-  .panel.active {
-    display: block;
-  }
-  .sub-panel {
-    display: none;
-  }
-  .sub-panel.active {
-    display: block;
-  }
-  .diagram-box {
-    background: var(--color-background-secondary);
-    border-radius: var(--border-radius-lg);
-    padding: 12px;
-    min-height: 200px;
-  }
-  .diagram-box svg {
-    width: 100%;
-  }
-  .loading-msg {
-    color: var(--color-text-tertiary);
-    font-size: 13px;
-    text-align: center;
-    padding: 40px;
-  }
-  .legend {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--color-text-secondary);
-  }
-</style>
+# Sequence Diagrams
 
-<div style="padding: 4px 0 0">
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchPhase('p1')">
-      <span class="phase-label p1">Phase 1</span>MVP
-    </button>
-    <button class="tab-btn" onclick="switchPhase('p2')">
-      <span class="phase-label p2">Phase 2</span>고도화
-    </button>
-    <button class="tab-btn" onclick="switchPhase('p3')">
-      <span class="phase-label p3">Phase 3</span>PvP · 오프라인
-    </button>
-  </div>
+## Phase 1 — MVP
 
-  <!-- PHASE 1 -->
-  <div id="p1" class="panel active">
-    <div class="sub-tab-bar">
-      <button class="sub-tab-btn active" onclick="switchSub('p1', 's1')">
-        ① SSO 로그인 · JWT 발급
-      </button>
-      <button class="sub-tab-btn" onclick="switchSub('p1', 's2')">
-        ② 퀴즈 시작 · 제출 · 채점
-      </button>
-      <button class="sub-tab-btn" onclick="switchSub('p1', 's3')">
-        ③ 관리자 단어 등록
-      </button>
-    </div>
-    <div id="p1-s1" class="sub-panel active">
-      <div class="diagram-box">
-        <div id="d-p1-s1"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        Google OAuth2 로그인 성공 시 JWT 발급 흐름. 신규 사용자는 users 테이블에
-        자동 저장됩니다.
-      </div>
-    </div>
-    <div id="p1-s2" class="sub-panel">
-      <div class="diagram-box">
-        <div id="d-p1-s2"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        퀴즈 세션 생성 → 전체 제출 → equalsIgnoreCase+trim() 채점 → 오답 자동
-        기록 흐름입니다.
-      </div>
-    </div>
-    <div id="p1-s3" class="sub-panel">
-      <div class="diagram-box">
-        <div id="d-p1-s3"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        관리자 비밀 키 검증 후 단어 등록. @PreAuthorize("hasRole('ADMIN')")으로
-        보호됩니다.
-      </div>
-    </div>
-  </div>
+### ① SSO 로그인 · JWT 발급
 
-  <!-- PHASE 2 -->
-  <div id="p2" class="panel">
-    <div class="sub-tab-bar">
-      <button class="sub-tab-btn active" onclick="switchSub('p2', 's1')">
-        ① 엑셀 업로드
-      </button>
-      <button class="sub-tab-btn" onclick="switchSub('p2', 's2')">
-        ② 퀴즈 이어풀기
-      </button>
-      <button class="sub-tab-btn" onclick="switchSub('p2', 's3')">
-        ④ 랭킹 자동 갱신
-      </button>
-    </div>
-    <div id="p2-s1" class="sub-panel active">
-      <div class="diagram-box">
-        <div id="d-p2-s1"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        Apache POI 파싱 → 미리보기 → 일괄 저장. 난이도 오류 행은 skip 후 행 번호
-        반환합니다.
-      </div>
-    </div>
-    <div id="p2-s2" class="sub-panel">
-      <div class="diagram-box">
-        <div id="d-p2-s2"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        기존 IN_PROGRESS 세션 감지 → ABANDONED 처리 or 이어풀기 선택 흐름.
-        컨트롤러: QuizResumeController, 서비스: QuizResumeService.
-      </div>
-    </div>
-    <div id="p2-s3" class="sub-panel">
-      <div class="diagram-box">
-        <div id="d-p2-s3"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        @Scheduled cron "0 0 0 * * *" — 매일 자정 wrong_notes 집계 후
-        word_ranking 갱신합니다.
-      </div>
-    </div>
-  </div>
+Google OAuth2 로그인 성공 시 JWT 발급 흐름. 신규 사용자는 users 테이블에 자동 저장됩니다.
 
-  <!-- PHASE 3 -->
-  <div id="p3" class="panel">
-    <div class="sub-tab-bar">
-      <button class="sub-tab-btn active" onclick="switchSub('p3', 's1')">
-        ① PvP 방 생성 · 참가
-      </button>
-      <button class="sub-tab-btn" onclick="switchSub('p3', 's2')">
-        ② PvP 실시간 대결 (STOMP)
-      </button>
-      <button class="sub-tab-btn" onclick="switchSub('p3', 's3')">
-        ③ 오프라인 동기화
-      </button>
-    </div>
-    <div id="p3-s1" class="sub-panel active">
-      <div class="diagram-box">
-        <div id="d-p3-s1"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        방 생성 → 초대 코드 공유 → 참가자 입장 시 status IN_PROGRESS 전환
-        흐름입니다.
-      </div>
-    </div>
-    <div id="p3-s2" class="sub-panel">
-      <div class="diagram-box">
-        <div id="d-p3-s2"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        STOMP /app/pvp/{roomCode}/answer 수신 → 채점 → progress 브로드캐스트 →
-        양측 완료 시 result 전송.
-      </div>
-    </div>
-    <div id="p3-s3" class="sub-panel">
-      <div class="diagram-box">
-        <div id="d-p3-s3"><p class="loading-msg">렌더링 중...</p></div>
-      </div>
-      <div class="legend">
-        네트워크 재연결 후 localStorage 임시 데이터 → /sync
-        엔드포인트(QuizSyncController) → QuizSyncService 누락 답안 upsert 흐름.
-      </div>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-  import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
-  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
-  await document.fonts.ready;
-
-  const themes = {
-    p1: {
-      primaryColor: dark ? '#2a2860' : '#EEEDFE',
-      primaryBorderColor: dark ? '#534AB7' : '#7F77DD',
-      secondaryColor: dark ? '#1e1a3a' : '#F0EFFE',
-      tertiaryColor: dark ? '#1a1630' : '#E8E6FD',
-    },
-    p2: {
-      primaryColor: dark ? '#083b2e' : '#E1F5EE',
-      primaryBorderColor: dark ? '#0F6E56' : '#1D9E75',
-      secondaryColor: dark ? '#062a20' : '#D0EEE5',
-      tertiaryColor: dark ? '#041e17' : '#C0E8DB',
-    },
-    p3: {
-      primaryColor: dark ? '#3b1a10' : '#FAECE7',
-      primaryBorderColor: dark ? '#993C1D' : '#D85A30',
-      secondaryColor: dark ? '#2d1208' : '#F5D9D0',
-      tertiaryColor: dark ? '#200d06' : '#F0C8BB',
-    },
-  };
-  const baseVars = {
-    darkMode: dark,
-    fontSize: '13px',
-    fontFamily: '"Anthropic Sans", sans-serif',
-    lineColor: dark ? '#9c9a92' : '#73726c',
-    textColor: dark ? '#c2c0b6' : '#3d3d3a',
-    primaryTextColor: dark ? '#c2c0b6' : '#3d3d3a',
-    edgeLabelBackground: dark ? '#1a1a18' : '#ffffff',
-  };
-
-  const srcs = {
-    'p1-s1': `sequenceDiagram
+```mermaid
+sequenceDiagram
   autonumber
   actor User as 사용자
   participant Browser as 브라우저
@@ -310,9 +33,17 @@
   end
   Server->>Server: JWT Access Token 생성 (jjwt)
   Server-->>Browser: Response Header: Authorization: Bearer {JWT}
-  Browser-->>User: 로그인 완료 → 메인 화면 이동`,
+  Browser-->>User: 로그인 완료 → 메인 화면 이동
+```
 
-    'p1-s2': `sequenceDiagram
+---
+
+### ② 퀴즈 시작 · 제출 · 채점
+
+퀴즈 세션 생성 → 전체 제출 → equalsIgnoreCase+trim() 채점 → 오답 자동 기록 흐름입니다.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor User as 사용자
   participant Client as 클라이언트
@@ -343,9 +74,17 @@
   DB-->>QS: 저장 완료
   QS-->>QC: QuizResult
   QC-->>Client: 200 {correctCount, results[], wrongWords[]}
-  Client-->>User: 결과 화면 표시`,
+  Client-->>User: 결과 화면 표시
+```
 
-    'p1-s3': `sequenceDiagram
+---
+
+### ③ 관리자 단어 등록
+
+관리자 비밀 키 검증 후 단어 등록. @PreAuthorize("hasRole('ADMIN')")으로 보호됩니다.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor Admin as 관리자
   participant Client as 클라이언트
@@ -381,9 +120,19 @@
   DB-->>AS: Word 엔티티 반환
   AS-->>AC_WORD: WordResponse
   AC_WORD-->>Client: 201 {id, word, createdAt}
-  Client-->>Admin: 등록 완료`,
+  Client-->>Admin: 등록 완료
+```
 
-    'p2-s1': `sequenceDiagram
+---
+
+## Phase 2 — 고도화
+
+### ① 엑셀 업로드
+
+Apache POI 파싱 → 미리보기 → 일괄 저장. 난이도 오류 행은 skip 후 행 번호 반환합니다.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor Admin as 관리자
   participant Client as 클라이언트
@@ -419,9 +168,18 @@
   DB-->>ES: 저장 완료
   ES-->>EC: {savedCount, skippedRows[]}
   EC-->>Client: 201 {savedCount, skippedRows, message}
-  Client-->>Admin: 업로드 완료 알림`,
+  Client-->>Admin: 업로드 완료 알림
+```
 
-    'p2-s2': `sequenceDiagram
+---
+
+### ② 퀴즈 이어풀기
+
+기존 IN_PROGRESS 세션 감지 → ABANDONED 처리 or 이어풀기 선택 흐름.
+컨트롤러: QuizResumeController, 서비스: QuizResumeService.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor User as 사용자
   participant Client as 클라이언트
@@ -474,9 +232,17 @@
   QRS->>DB: last_answered_index 갱신
   DB-->>QRS: 완료
   QRS-->>QRC: {isCorrect, lastAnsweredIndex}
-  QRC-->>Client: 200`,
+  QRC-->>Client: 200
+```
 
-    'p2-s3': `sequenceDiagram
+---
+
+### ④ 랭킹 자동 갱신
+
+@Scheduled cron "0 0 0 \* \* \*" — 매일 자정 wrong_notes 집계 후 word_ranking 갱신합니다.
+
+```mermaid
+sequenceDiagram
   autonumber
   participant Scheduler as RankingScheduler
   participant RS as RankingService
@@ -502,9 +268,19 @@
   RS->>WRR: findTop10ByOrderByWrongCountDesc()
   WRR-->>RS: WordRanking + Word 정보
   RS-->>RC: List<RankingDto>
-  RC-->>Client: 200 [{rank, word, wrongCount, rankedAt}]`,
+  RC-->>Client: 200 [{rank, word, wrongCount, rankedAt}]
+```
 
-    'p3-s1': `sequenceDiagram
+---
+
+## Phase 3 — PvP · 오프라인
+
+### ① PvP 방 생성 · 참가
+
+방 생성 → 초대 코드 공유 → 참가자 입장 시 status IN_PROGRESS 전환 흐름입니다.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor PlayerA as 플레이어 A
   actor PlayerB as 플레이어 B
@@ -537,9 +313,17 @@
   PRS-->>PRC: 업데이트된 PvpRoom
   PRC-->>Client_B: 200 {status: "IN_PROGRESS", participants: [...]}
   Client_B-->>PlayerB: 대결 화면 진입
-  Client_A-->>PlayerA: 대결 화면 진입 (WebSocket 알림)`,
+  Client_A-->>PlayerA: 대결 화면 진입 (WebSocket 알림)
+```
 
-    'p3-s2': `sequenceDiagram
+---
+
+### ② PvP 실시간 대결 (STOMP)
+
+STOMP /app/pvp/{roomCode}/answer 수신 → 채점 → progress 브로드캐스트 → 양측 완료 시 result 전송.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor PlayerA as 플레이어 A
   actor PlayerB as 플레이어 B
@@ -584,9 +368,17 @@
     Client_B-->>PlayerB: 최종 결과 화면
   else 아직 진행 중
     PBS->>WS: progress만 브로드캐스트
-  end`,
+  end
+```
 
-    'p3-s3': `sequenceDiagram
+---
+
+### ③ 오프라인 동기화
+
+네트워크 재연결 후 localStorage 임시 데이터 → /sync 엔드포인트(QuizSyncController) → QuizSyncService 누락 답안 upsert 흐름.
+
+```mermaid
+sequenceDiagram
   autonumber
   actor User as 사용자
   participant Client as 클라이언트
@@ -621,67 +413,5 @@
   QSS-->>QC: SyncResult {syncedCount, lastAnsweredIndex, status}
   QC-->>Client: 200 {sessionId, lastAnsweredIndex: 6, syncedCount: 3}
   Client->>LS: 임시 저장 데이터 삭제
-  Client-->>User: 동기화 완료, 퀴즈 재개`,
-  };
-
-  const rendered = {};
-
-  async function render(key) {
-    if (rendered[key]) return;
-    rendered[key] = true;
-    const phase = key.split('-')[0];
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'base',
-      fontFamily: '"Anthropic Sans", sans-serif',
-      themeVariables: { ...baseVars, ...themes[phase] },
-    });
-    try {
-      const { svg } = await mermaid.render(
-        'svg-' + key.replace('-', '_'),
-        srcs[key],
-      );
-      document.getElementById('d-' + key).innerHTML = svg;
-    } catch (e) {
-      document.getElementById('d-' + key).innerHTML =
-        `<p style="color:var(--color-text-danger);font-size:13px;padding:20px">오류: ${e.message}</p>`;
-    }
-  }
-
-  window.switchPhase = function (phase) {
-    document
-      .querySelectorAll('.panel')
-      .forEach((p) => p.classList.remove('active'));
-    document
-      .querySelectorAll('.tab-btn')
-      .forEach((b) => b.classList.remove('active'));
-    document.getElementById(phase).classList.add('active');
-    document.querySelectorAll('.tab-btn').forEach((b) => {
-      if (b.getAttribute('onclick') === `switchPhase('${phase}')`)
-        b.classList.add('active');
-    });
-    const firstSub = document.querySelector(`#${phase} .sub-panel`);
-    if (firstSub) {
-      const key = firstSub.id.replace(/^([^-]+)-(.+)$/, '$1-$2');
-      render(key);
-    }
-  };
-
-  window.switchSub = function (phase, sub) {
-    const key = `${phase}-${sub}`;
-    document
-      .querySelectorAll(`#${phase} .sub-panel`)
-      .forEach((p) => p.classList.remove('active'));
-    document
-      .querySelectorAll(`#${phase} .sub-tab-btn`)
-      .forEach((b) => b.classList.remove('active'));
-    document.getElementById(key).classList.add('active');
-    document.querySelectorAll(`#${phase} .sub-tab-btn`).forEach((b) => {
-      if (b.getAttribute('onclick') === `switchSub('${phase}','${sub}')`)
-        b.classList.add('active');
-    });
-    render(key);
-  };
-
-  await render('p1-s1');
-</script>
+  Client-->>User: 동기화 완료, 퀴즈 재개
+```
