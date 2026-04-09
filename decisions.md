@@ -51,8 +51,8 @@
 - 발의자: K
 - 결론:
   - `feat/* -> dev` PR 통합
-  - `dev -> main`은 triage review + 과반(2인+Copilot) 동의 시 승격
-  - `main` 직접 push 금지
+  - `dev -> main` 승격은 PR 기준으로 진행하며, maintainer 2명 이상의 승인 리뷰가 있을 때만 허용
+  - `main` 브랜치는 직접 push를 금지하고, GitHub branch protection으로 승인 리뷰 요건을 강제
 
 ---
 
