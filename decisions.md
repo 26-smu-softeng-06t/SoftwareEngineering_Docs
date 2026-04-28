@@ -73,3 +73,25 @@
 - 결론:
   - 공식 명칭: `TOKKI (TOEIC Optimized Knowledge & Keyword Index)`
   - 보고서/PPT/저장소 표기 일원화
+
+---
+
+## DEC-007 저장소 구조: frontend/backend 분리 및 환경변수 템플릿 운영
+- 상태: Approved
+- 결정일: 2026-04-28
+- 발의자: L
+- 정리: Codex
+- 관련 커밋:
+  - TOKKI `dev`: `3458b91` — `Merge branch 'chore/restructure' into dev`
+  - 작업 브랜치: `chore/restructure`
+- 결론:
+  - `TOKKI` 저장소의 루트 `src/` 구조를 `frontend/`와 `backend/`로 분리한다.
+  - `frontend/`는 Vite React 클라이언트 기준으로 운영한다.
+  - `backend/`는 Spring Boot API 서버 기준으로 운영한다.
+  - 실제 `.env`는 로컬 비밀값 파일로 유지하고 Git에 커밋하지 않는다.
+  - 공유 가능한 환경변수 예시는 `.env.example`만 커밋한다.
+  - AI Agent/Copilot/Claude/Cursor 지시문 템플릿은 `Onboarding`에서 관리하되, 비밀값이나 개인 프롬프트가 포함될 수 있으므로 문서 저장소 또는 Wiki에 원문을 복제하지 않는다.
+- 근거:
+  - `요구사항명세서.md`의 Spring Boot / React / MySQL 기술 스택
+  - `git_branching_strat.md`의 `dev` 통합 브랜치 정책
+  - `개발환경_및_구조.md`
